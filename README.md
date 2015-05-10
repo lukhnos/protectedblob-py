@@ -5,11 +5,13 @@
 protectedblob is a library and a utility that can create a
 passphrase-protected blob from a plaintext as well as decrypt it.
 
-This is still a work in progress. I am working on another mobile app project
+This is still a work in progress. I am working on
+[a mobile password manager](https://github.com/lukhnos/PocketPasswords)
 that depends on it. This project is also an exercise in creating a library
-that supports both Python 2.7 and 3.4, among many other library development drills.
+that supports both Python 2.7 and 3.4, among many other library development
+drills.
 
-Also please be warned that this code have not gone through any security
+Also please be warned that this code has not been through any security
 review. Use this at your own risk.
 
 
