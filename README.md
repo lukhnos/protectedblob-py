@@ -4,14 +4,14 @@ protectedblob is a library and a utility that can create a passphrase-protected 
 
 This is still a work in progress. I am working on another mobile app project that depends on it. This project is also an exercise in creating a library that supports both Python 2.7 and 3.4, among many other library development drills.
 
-Also please be warned that this code have not gone through any security review. There is currently at least one know issue (that it is not using constant-time comparison). Use this at your own risk.
+Also please be warned that this code have not gone through any security review. Use this at your own risk.
 
 
 ## Supported Platforms
 
 This is currently tested only on OS X, but it should work on general *NIX. There's no Windows support.
 
-The code can be used with both Python 2.7 and Python 3.4.
+The code can be used with Python 2.6.9, 2.7, and 3.4.
 
 
 ## Usage
