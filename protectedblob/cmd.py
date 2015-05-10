@@ -26,7 +26,7 @@ def encrypt(args):
         plaintext = f.read()
 
     blob = PassphraseProtectedBlob(AES256CBCSHA256, PBKDF2SHA256AES256)
-    blob.populate_with_plaintext(p1, plaintext)
+    blob.populate_with_plaintext(p1, plaintext, rounds=args.rounds)
 
     with io.open(args.output, 'w', encoding='utf-8') as f:
         if sys.version_info[0] == 2:
