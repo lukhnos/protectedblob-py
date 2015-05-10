@@ -4,6 +4,7 @@ import io
 import json
 import sys
 
+import protectedblob
 from protectedblob.blob import PassphraseProtectedBlob
 from protectedblob.cipher_suites import AES256CBCSHA256
 from protectedblob.key_derivation import PBKDF2SHA256AES256
@@ -46,8 +47,9 @@ def decrypt(args):
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--version', action='store_true')
+    parser.set_defaults(func=None)
     subparsers = parser.add_subparsers(dest='command')
-    subparsers.required = True
 
     parser_encrypt = subparsers.add_parser('encrypt')
     parser_encrypt.add_argument('--input', required=True)
@@ -62,7 +64,15 @@ def main():
     parser_decrypt.set_defaults(func=decrypt)
 
     args = parser.parse_args()
+    if args.version:
+        print(protectedblob.__version__)
+        return 0
+    elif not args.func:
+        parser.print_help()
+        return 2
+
     args.func(args)
+    return 0
 
 
 if __name__ == '__main__':
