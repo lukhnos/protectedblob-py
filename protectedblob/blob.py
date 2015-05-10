@@ -29,13 +29,13 @@ class PassphraseProtectedBlob(object):
 
     @classmethod
     def from_dict(cls, d):
-        keys = {
+        keys = set((
             'version',
             'cipher_suite',
             'kdf',
             'encrypted_data',
             'encrypted_key'
-        }
+        ))
         if set(d.keys()) != keys:
             raise ValueError('Keys mismatch')
         if d['version'] != cls.VERSION:
