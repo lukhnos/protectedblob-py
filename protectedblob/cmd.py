@@ -30,7 +30,7 @@ def encrypt(args):
 
     with io.open(args.output, 'w', encoding='utf-8') as f:
         if sys.version_info[0] == 2:
-            f.write(unicode(json.dumps(blob.to_dict())))
+            f.write(unicode(json.dumps(blob.to_dict())))  # flake8: noqa
         else:
             json.dump(blob.to_dict(), f)
 
