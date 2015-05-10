@@ -6,8 +6,14 @@ from Crypto.Hash import HMAC
 from Crypto.Hash import SHA256
 
 
+from protectedblob.util import time_constant_compare
+
 KeyPair = namedtuple('KeyPair', ['cipher_key', 'hmac_key'])
 EncryptedData = namedtuple('EncryptedData', ['iv', 'ciphertext', 'hmac'])
+
+
+class HMACMismatchException(Exception):
+    pass
 
 
 def pkcs7_pad(msg, block_size):
@@ -89,8 +95,8 @@ class AES256CBCSHA256(object):
 
         hmac_obj = cls.hmac(key_pair.hmac_key)
         hmac_obj.update(encrypted_data.ciphertext)
-        if hmac_obj.digest() != encrypted_data.hmac:
-            raise ValueError('HMAC mismatch')
+        if not time_constant_compare(hmac_obj.digest(), encrypted_data.hmac):
+            raise HMACMismatchException
 
         cipher_obj = cls.cipher(key_pair.cipher_key, encrypted_data.iv)
         padded_plaintext = cipher_obj.decrypt(encrypted_data.ciphertext)
