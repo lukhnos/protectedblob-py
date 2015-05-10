@@ -25,5 +25,6 @@ class TestAlgorithmSuite(unittest.TestCase):
             ciphertext=b'\0' * len(encrypted_data.ciphertext),
             hmac=encrypted_data.hmac)
 
-        with self.assertRaises(HMACMismatchException):
-            self.suite.decrypt(self.key, corrupt_data)
+        self.assertRaises(
+            HMACMismatchException,
+            lambda: self.suite.decrypt(self.key, corrupt_data))
