@@ -1,5 +1,7 @@
 # protectedblob
 
+[![Build Status](https://travis-ci.org/lukhnos/protectedblob-py.svg?branch=master)](https://travis-ci.org/lukhnos/protectedblob-py)
+
 protectedblob is a library and a utility that can create a
 passphrase-protected blob from a plaintext as well as decrypt it.
 
