@@ -57,9 +57,13 @@ class AES256CBCSHA256(object):
     def derive_keys(cls, key):
         assert isinstance(key, bytes)
         assert len(key) == cls.KEY_SIZE
+        assert cls.KEY_SIZE == cls.BLOCK_SIZE * 2
+        assert SHA256.digest_size == cls.BLOCK_SIZE * 2
         c = AES.new(key, AES.MODE_ECB)
-        cipher_key = c.encrypt(b'\x00' * len(key))
-        hmac_key = c.encrypt(b'\x01' * SHA256.digest_size)
+        cipher_key = c.encrypt(
+            b'\x00' * cls.BLOCK_SIZE + b'\x01' * cls.BLOCK_SIZE)
+        hmac_key = c.encrypt(
+            b'\x02' * cls.BLOCK_SIZE + b'\x03' * cls.BLOCK_SIZE)
         return KeyPair(cipher_key=cipher_key, hmac_key=hmac_key)
 
     @classmethod

@@ -7,7 +7,7 @@ from protectedblob.util import namedtuple_to_dict_with_base64_bytes
 
 
 class PassphraseProtectedBlob(object):
-    VERSION = '1'
+    VERSION = '2'
 
     def __init__(self, cipher_suite, kdf):
         self.version = self.VERSION
