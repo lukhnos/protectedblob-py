@@ -11,6 +11,14 @@ from protectedblob.key_derivation import PBKDF2SHA256AES256
 
 
 def encrypt(args):
+    if args.stdin and args.input:
+        sys.stderr.write('cannot specify both stdin and input\n')
+        return 1
+
+    if not args.stdin and not args.input:
+        sys.stderr.write('must either specify stdin or input\n')
+        return 1
+
     p1 = getpass.getpass('enter passphrase: ')
     p2 = getpass.getpass('repeat passphrase: ')
 
@@ -22,8 +30,11 @@ def encrypt(args):
         sys.stderr.write('passphrase must not be empty\n')
         return 1
 
-    with io.open(args.input, 'rb') as f:
-        plaintext = f.read()
+    if args.stdin:
+        plaintext = sys.stdin.read()
+    else:
+        with io.open(args.input, 'rb') as f:
+            plaintext = f.read()
 
     blob = PassphraseProtectedBlob(AES256CBCSHA256, PBKDF2SHA256AES256)
     blob.populate_with_plaintext(p1, plaintext, rounds=args.rounds)
@@ -52,7 +63,8 @@ def main():
     subparsers = parser.add_subparsers(dest='command')
 
     parser_encrypt = subparsers.add_parser('encrypt')
-    parser_encrypt.add_argument('--input', required=True)
+    parser_encrypt.add_argument('--stdin', action='store_true')
+    parser_encrypt.add_argument('--input')
     parser_encrypt.add_argument('--output', required=True)
     parser_encrypt.add_argument(
         '--rounds', type=int, default=PBKDF2SHA256AES256.DEFAULT_ROUNDS)
